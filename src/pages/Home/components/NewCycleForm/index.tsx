@@ -1,36 +1,16 @@
 import { FormContainer, MinutesAmountInput, TaskInput } from "./style"
-import * as zod from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useFormContext } from "react-hook-form";
 import { useContext } from "react";
-import { CycleContext } from "../..";
+import { CycleContext } from "../../../../contexts/CyclesContext";
 
 
 export function NewCycleForm() {
     const {activeCycle} = useContext(CycleContext)
-    const newCycleFormValidationSchema = zod.object({
-        task: zod.string().min(1, "Informe a tarefa"),
-        minutesAmount: zod.number().min(1, "Informe a quantidade de minutos").max(90, "Os minutos devem ser estar entre 1 e 90"),
-    })
-    
-    const { register, handleSubmit, watch, reset /*formState*/ } = useForm<NewCycleFormData>({
-        resolver: zodResolver(newCycleFormValidationSchema),
-        defaultValues: {
-            task: "",
-            minutesAmount: 0,
-        }
-    })
+    const {register} = useFormContext()
 
-    
-    // interface NewCycleFormData {
-    //     task: string,
-    //     minutesAmount: number,
-    // }
-    
-    type NewCycleFormData = zod.infer<typeof newCycleFormValidationSchema>
     return (
         <FormContainer>
-
+    
                     <label htmlFor="task">
                         Vou trabalhar em
                     </label>
@@ -41,13 +21,13 @@ export function NewCycleForm() {
                         {...register("task")}
                         disabled={!!activeCycle}
                     />
-
+    
                     <datalist id="task-suggestions">
                         <option value={"Foco no trabalho"} />
                         <option value={"Fazer pesquisa"} />
                         <option value={"Comer"} />
                     </datalist>
-
+    
                     <label htmlFor="minutsAmount">
                         durante
                     </label>
@@ -60,7 +40,7 @@ export function NewCycleForm() {
                         disabled={!!activeCycle}
                     />
                     <span>minutos.</span>
-
+    
                 </FormContainer>
     )
 }
