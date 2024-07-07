@@ -30,9 +30,9 @@ export function History() {
                                         locale: ptBR,
                                     })}</td>
                                     <td>
-                                        {cycle.finishedDate && (<Status statusColor={"green"}>Concluído</Status>)}
-                                        {cycle.interruptedDate && (<Status statusColor={"red"}>Interompido</Status>)}
-                                        {(!cycle.finishedDate && !cycle.interruptedDate) && (<Status statusColor={"yellow"}>Em andamento</Status>)}
+                                        {cycle.finishedDate && (<Status statuscolor={"green"}>Concluído</Status>)}
+                                        {cycle.interruptedDate && (<Status statuscolor={"red"}>Interompido</Status>)}
+                                        {(!cycle.finishedDate && !cycle.interruptedDate) && (<Status statuscolor={"yellow"}>Em andamento</Status>)}
                                     </td>
                                 </tr>
                             )
