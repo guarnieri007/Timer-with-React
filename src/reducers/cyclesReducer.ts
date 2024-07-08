@@ -25,6 +25,7 @@ interface ActionPayload {
 interface CyclePayload {
     newCycle: Cycle | undefined | null
     activeCycleID: string | undefined | null
+    removeCycleIndex: number | undefined | null
 }
 
 export function cyclesReducer(state: CycleState, action: ActionPayload) {
@@ -102,6 +103,13 @@ export function cyclesReducer(state: CycleState, action: ActionPayload) {
                     draft.cycles[currentCycleIndex].finishedDate = new Date()
                 })
             )
+
+            case ActionTypes.Remove_cycle_from_history:
+                return (
+                    produce(state, (draft) => {
+                        draft.cycles.splice(action!.payload!.removeCycleIndex!, 1);
+                    })
+                )
 
         default:
             return state

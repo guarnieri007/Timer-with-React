@@ -68,6 +68,16 @@ export const Status = styled.span<StatusProps>`
     }
 `
 
+export const Button = styled.button<StatusProps>`
+    font-size: 11px;
+    font-weight: lighter;
+    padding: 8px;
+    border-radius: 8px;
+    background-color: ${(props) => props.theme[STATUS_COLORS[props.statuscolor]]};
+    color: white;
+    cursor: pointer;
+`
+
 const STATUS_COLORS = {
     yellow: "yellow-500",
     green: "green-500",

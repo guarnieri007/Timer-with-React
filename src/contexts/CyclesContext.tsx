@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useEffect, useReducer, useState } from "react";
 import { Cycle, cyclesReducer } from "../reducers/cyclesReducer";
-import { addNewCycleAction, setCycleAsFinishedAction, interruptCurrentCycleAction } from "../reducers/actions";
+import { addNewCycleAction, setCycleAsFinishedAction, interruptCurrentCycleAction, Remove_cycle_from_historyAction } from "../reducers/actions";
 import { differenceInSeconds } from "date-fns";
 
 
@@ -18,6 +18,7 @@ interface CyclesContextType {
     setamountSecondsPassed: React.Dispatch<React.SetStateAction<number>>
     createNewCycle: (data: CreateCycleData) => void
     interruptCurrentCycle: () => void
+    RemoveCycleFromHistory: (cycleIndex: number) => void
     cycles: Cycle[]
 }
 interface CyclesContextProviderProps {
@@ -77,6 +78,10 @@ export function CyclesContextProvider({ children }: CyclesContextProviderProps) 
         dispatch(interruptCurrentCycleAction())
     }
 
+    function RemoveCycleFromHistory(index: number) {
+        dispatch(Remove_cycle_from_historyAction(index))
+    }
+
     return (
         <CycleContext.Provider value={{
             activeCycle,
@@ -86,6 +91,7 @@ export function CyclesContextProvider({ children }: CyclesContextProviderProps) 
             setamountSecondsPassed,
             createNewCycle,
             interruptCurrentCycle,
+            RemoveCycleFromHistory,
             cycles
         }}
         >
