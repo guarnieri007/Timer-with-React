@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useEffect, useReducer, useState } from "react";
+import { createContext, ReactNode, useCallback, useEffect, useReducer, useState } from "react";
 import { Cycle, cyclesReducer } from "../reducers/cyclesReducer";
 import { addNewCycleAction, setCycleAsFinishedAction, interruptCurrentCycleAction, Remove_cycle_from_historyAction } from "../reducers/actions";
 import { differenceInSeconds } from "date-fns";
@@ -20,6 +20,8 @@ interface CyclesContextType {
     interruptCurrentCycle: () => void
     RemoveCycleFromHistory: (cycleIndex: number) => void
     cycles: Cycle[]
+    minutes: string
+    seconds: string
 }
 interface CyclesContextProviderProps {
     children: ReactNode
@@ -56,10 +58,9 @@ export function CyclesContextProvider({ children }: CyclesContextProviderProps) 
         localStorage.setItem("@ignite-timer:cycleStates-1.0.0", stateJson)
     }, [cyclesState])
 
-    function setCycleAsFinished() {
-
+    const setCycleAsFinished = useCallback(() => {
         dispatch(setCycleAsFinishedAction())
-    }
+    }, [dispatch])
 
     function createNewCycle(data: CreateCycleData) {
 
@@ -82,6 +83,46 @@ export function CyclesContextProvider({ children }: CyclesContextProviderProps) 
         dispatch(Remove_cycle_from_historyAction(index))
     }
 
+    const totalSeconds = activeCycle ? activeCycle.minutesAmount * 60 : 0
+    const currentSeconds = activeCycle ? totalSeconds - amountSecondsPassed : 0
+
+    const minutesAmount = Math.floor(currentSeconds / 60)
+    const secondsAmount = currentSeconds % 60
+
+    const minutes = String(minutesAmount).padStart(2, "0")
+    const seconds = String(secondsAmount).padStart(2, "0")
+
+    useEffect(() => {
+        let interval: number;
+
+        if (activeCycle) {
+            interval = setInterval(() => {
+                const secondsDifference = differenceInSeconds(new Date(), new Date(activeCycle.startDate))
+
+                if (secondsDifference >= totalSeconds) {
+                    setCycleAsFinished()
+                    setamountSecondsPassed(totalSeconds)
+                    clearInterval(interval)
+                } else {
+                    setamountSecondsPassed(secondsDifference)
+                }
+
+            }, 1000)
+        }
+
+        return () => {
+            clearInterval(interval)
+        }
+    }, [activeCycle, totalSeconds, activeCycleID, setCycleAsFinished, setamountSecondsPassed])
+
+    useEffect(() => {
+        if (activeCycle) {
+            document.title = `Timer: ${minutes}:${seconds}`
+        } else {
+            document.title = `Timer: 00:00`
+        }
+    }, [minutes, seconds, activeCycle])
+
     return (
         <CycleContext.Provider value={{
             activeCycle,
@@ -92,7 +133,9 @@ export function CyclesContextProvider({ children }: CyclesContextProviderProps) 
             createNewCycle,
             interruptCurrentCycle,
             RemoveCycleFromHistory,
-            cycles
+            cycles,
+            minutes,
+            seconds,
         }}
         >
             {children}

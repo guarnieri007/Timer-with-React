@@ -12,6 +12,12 @@ export function NewCycleForm() {
         return cycle.task;
     })
 
+    function removeDuplicates(items: string[]) {
+        return Array.from(new Set(items));
+    }
+
+    const uniqueOptions = removeDuplicates(optionsToSelect);
+
     return (
         <FormContainer>
 
@@ -27,8 +33,8 @@ export function NewCycleForm() {
             />
 
             <datalist id="task-suggestions">
-                {optionsToSelect != null ? (
-                    optionsToSelect.map((option) => {
+                {uniqueOptions.length > 0 ? (
+                    uniqueOptions.map((option) => {
                         return <option value={option} />
                     })
                 ) : ("")}

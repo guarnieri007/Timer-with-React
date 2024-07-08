@@ -75,7 +75,13 @@ export const Button = styled.button<StatusProps>`
     border-radius: 8px;
     background-color: ${(props) => props.theme[STATUS_COLORS[props.statuscolor]]};
     color: white;
+    border: none;
     cursor: pointer;
+    &:disabled {
+        background-color: ${(props) => props.theme["gray-500"]};
+        color: ${(props) => props.theme["red-700"]};
+        cursor: not-allowed;
+    }
 `
 
 const STATUS_COLORS = {
