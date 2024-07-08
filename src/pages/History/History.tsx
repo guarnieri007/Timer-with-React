@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { formatDistanceToNow} from "date-fns"
+import { formatDistanceToNow } from "date-fns"
 import { ptBR } from "date-fns/locale/pt-BR";
 import { HistoryContainer, HistoryList, Status, Button } from "./HistoryStyles";
 import { CycleContext } from "../../contexts/CyclesContext";
@@ -42,7 +42,7 @@ export function History() {
                                         {(!cycle.finishedDate && !cycle.interruptedDate) && (<Status statuscolor={"yellow"}>Em andamento</Status>)}
                                     </td>
                                     <td>
-                                        <Button statuscolor="red" value={index} disabled={cycle.id === activeCycleID} onClick={() => {removeItem(index)}}>Apagar</Button>
+                                        <Button statuscolor="red" value={index} disabled={cycle.id === activeCycleID} onClick={() => { removeItem(index) }}>Apagar</Button>
                                     </td>
                                 </tr>
                             )

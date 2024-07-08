@@ -17,7 +17,7 @@ import { CycleContext } from "../../contexts/CyclesContext";
 
 
 export function Home() {
-    const {createNewCycle, interruptCurrentCycle, activeCycle} = useContext(CycleContext)
+    const { createNewCycle, interruptCurrentCycle, activeCycle } = useContext(CycleContext)
 
     const newCycleFormValidationSchema = zod.object({
         task: zod.string().min(1, "Informe a tarefa"),
@@ -56,11 +56,11 @@ export function Home() {
     return (
         <HomeContainer>
             <form action="" onSubmit={handleSubmit(handleCreateNewCycle)}>
-               
-                    <FormProvider {...newCycleForm}>
-                        <NewCycleForm />
-                    </FormProvider>
-                    <Countdown />
+
+                <FormProvider {...newCycleForm}>
+                    <NewCycleForm />
+                </FormProvider>
+                <Countdown />
 
                 {activeCycle ? (
                     <StopCountdownButton onClick={interruptCurrentCycle} type="button">

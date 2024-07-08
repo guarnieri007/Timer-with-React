@@ -14,7 +14,7 @@ export function addNewCycleAction(newCycle: Cycle) {
             newCycle: newCycle,
             activeCycleID: null,
             removeCycleIndex: null
-            
+
         }
     }
 }
@@ -38,7 +38,7 @@ export function Remove_cycle_from_historyAction(index: number) {
             newCycle: null,
             activeCycleID: null,
             removeCycleIndex: index
-            
+
         }
     }
 }

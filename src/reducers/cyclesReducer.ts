@@ -104,12 +104,12 @@ export function cyclesReducer(state: CycleState, action: ActionPayload) {
                 })
             )
 
-            case ActionTypes.Remove_cycle_from_history:
-                return (
-                    produce(state, (draft) => {
-                        draft.cycles.splice(action!.payload!.removeCycleIndex!, 1);
-                    })
-                )
+        case ActionTypes.Remove_cycle_from_history:
+            return (
+                produce(state, (draft) => {
+                    draft.cycles.splice(action!.payload!.removeCycleIndex!, 1);
+                })
+            )
 
         default:
             return state

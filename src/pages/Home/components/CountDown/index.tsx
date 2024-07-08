@@ -4,7 +4,7 @@ import { CycleContext } from "../../../../contexts/CyclesContext"
 
 
 export function Countdown() {
-    const {minutes, seconds} = useContext(CycleContext)
+    const { minutes, seconds } = useContext(CycleContext)
 
     return (
         <CountdownContainer>
