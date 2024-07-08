@@ -28,9 +28,11 @@ export const HistoryList = styled.div`
             color: ${props => props.theme["gray-100"]};
             font-size: 0.75rem;
             line-height: 1.6;
+            text-align: center;
             &:first-child {
                 border-top-left-radius: 8px;
                 padding-left: 1.5rem;
+                text-align: left;
             }
             &:last-child {
                 border-top-right-radius: 8px;
@@ -44,9 +46,11 @@ export const HistoryList = styled.div`
                 padding: 1rem;
                 font-size: 0.875rem;
                 line-height: 1.6;
+                text-align: center;
                 &:first-child {
                     padding-left: 1.5rem;
                     width: 50%;
+                    text-align: left
                 }
                 &:last-child {
                     padding-right: 1.5rem;
