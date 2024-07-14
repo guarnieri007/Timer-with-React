@@ -55,3 +55,14 @@ cursor: pointer;
         background: ${p => p.theme["red-700"]};
     }
 `
+
+export const StartAlarmButton = styled(BaseCountdownButton)`
+cursor: pointer;
+    background: ${p => p.theme["yellow-500"]};
+    color: ${p => p.theme["gray-600"]};
+
+    &:not(:disabled):hover {
+        background: ${p => p.theme["yellow-700"]};
+        color: ${p => p.theme["gray-100"]};
+    }
+`

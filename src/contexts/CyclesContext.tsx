@@ -1,7 +1,8 @@
-import { createContext, ReactNode, useCallback, useEffect, useReducer, useState } from "react";
+import { createContext, ReactNode, useCallback, useEffect, useReducer, useState, useRef } from "react";
 import { Cycle, cyclesReducer } from "../reducers/cyclesReducer";
 import { addNewCycleAction, setCycleAsFinishedAction, interruptCurrentCycleAction, Remove_cycle_from_historyAction } from "../reducers/actions";
 import { differenceInSeconds } from "date-fns";
+import alarmSound from '../assets/tony ann - iPhone alarm as a piano ballad.mp4';
 
 
 
@@ -14,6 +15,8 @@ interface CyclesContextType {
     activeCycle: Cycle | undefined;
     activeCycleID: string | null;
     setCycleAsFinished: () => void;
+    setAlarmeRingOff: () => void;
+    alarmeRinging: boolean;
     amountSecondsPassed: number;
     setamountSecondsPassed: React.Dispatch<React.SetStateAction<number>>
     createNewCycle: (data: CreateCycleData) => void
@@ -41,7 +44,9 @@ export function CyclesContextProvider({ children }: CyclesContextProviderProps) 
         })
 
     const { cycles, activeCycleID } = cyclesState
+    const [alarmeRinging, setAlarmeRinging] = useState(false)
     const activeCycle = cycles.find(cycles => cycles.id === activeCycleID)
+    const audioRef = useRef(new Audio(alarmSound));
     const [amountSecondsPassed, setamountSecondsPassed] = useState(() => {
 
         if (activeCycle) {
@@ -83,6 +88,18 @@ export function CyclesContextProvider({ children }: CyclesContextProviderProps) 
         dispatch(Remove_cycle_from_historyAction(index))
     }
 
+    function setAlarmeRingOn() {
+        setAlarmeRinging(true);
+        audioRef.current.loop = true;
+        audioRef.current.play();
+    }
+
+    function setAlarmeRingOff() {
+        setAlarmeRinging(false);
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0; // Reinicia o áudio para o início
+    }
+
     const totalSeconds = activeCycle ? activeCycle.minutesAmount * 60 : 0
     const currentSeconds = activeCycle ? totalSeconds - amountSecondsPassed : 0
 
@@ -103,6 +120,7 @@ export function CyclesContextProvider({ children }: CyclesContextProviderProps) 
                     setCycleAsFinished()
                     setamountSecondsPassed(totalSeconds)
                     clearInterval(interval)
+                    setAlarmeRingOn()
                 } else {
                     setamountSecondsPassed(secondsDifference)
                 }
@@ -133,9 +151,11 @@ export function CyclesContextProvider({ children }: CyclesContextProviderProps) 
             createNewCycle,
             interruptCurrentCycle,
             RemoveCycleFromHistory,
+            setAlarmeRingOff,
             cycles,
             minutes,
             seconds,
+            alarmeRinging
         }}
         >
             {children}

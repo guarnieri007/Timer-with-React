@@ -15,7 +15,7 @@ export const CountdownContainer = styled.div`
         border-radius: 8px;
     }
     @media (max-width: 900px) {
-        width: 100%;
+        width: auto;
         font-size: 24px;
         line-height: 10px;
 
